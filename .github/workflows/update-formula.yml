@@ -1,26 +1,31 @@
 name: Update Homebrew Formula
 
 on:
-  release:
-    types: [published]
+  repository_dispatch:
+    types: [update-homebrew]
+
+permissions:
+  contents: write  # Required for modifying the formula
 
 jobs:
   update-formula:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout this homebrew tap repository
+      - name: Checkout homebrew tap repository
         uses: actions/checkout@v4
 
       - name: Get latest release info
-        id: get_release
-        run: |
-          LATEST_VERSION=${{ github.event.release.tag_name }}
-          echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: echo "Latest tag is $TAG_NAME"
 
       - name: Download binaries
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
         run: |
-          wget -O tempesta-x86_64.tar.gz https://github.com/x71c9/tempesta/releases/download/${LATEST_VERSION}/tempesta-x86_64-apple-darwin.tar.gz
-          wget -O tempesta-aarch64.tar.gz https://github.com/x71c9/tempesta/releases/download/${LATEST_VERSION}/tempesta-aarch64-apple-darwin.tar.gz
+          wget -O tempesta-x86_64.tar.gz https://github.com/x71c9/tempesta/releases/download/${TAG_NAME}/tempesta-x86_64-apple-darwin.tar.gz
+          wget -O tempesta-aarch64.tar.gz https://github.com/x71c9/tempesta/releases/download/${TAG_NAME}/tempesta-aarch64-apple-darwin.tar.gz
 
       - name: Compute SHA256
         run: |
@@ -30,11 +35,13 @@ jobs:
           echo "SHA256_AARCH64=${SHA256_AARCH64}" >> $GITHUB_ENV
 
       - name: Update Formula
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
         run: |
-          sed -i "s|version \".*\"|version \"${LATEST_VERSION#v}\"|" Formula/tempesta.rb
-          sed -i "s|url \".*x86_64.*\"|url \"https://github.com/x71c9/tempesta/releases/download/${LATEST_VERSION}/tempesta-x86_64-apple-darwin.tar.gz\"|" Formula/tempesta.rb
+          sed -i "s|version \".*\"|version \"${TAG_NAME#v}\"|" Formula/tempesta.rb
+          sed -i "s|url \".*x86_64.*\"|url \"https://github.com/x71c9/tempesta/releases/download/${TAG_NAME}/tempesta-x86_64-apple-darwin.tar.gz\"|" Formula/tempesta.rb
           sed -i "s|sha256 \".*\"|sha256 \"${SHA256_X86_64}\"|" Formula/tempesta.rb
-          sed -i "s|url \".*aarch64.*\"|url \"https://github.com/x71c9/tempesta/releases/download/${LATEST_VERSION}/tempesta-aarch64-apple-darwin.tar.gz\"|" Formula/tempesta.rb
+          sed -i "s|url \".*aarch64.*\"|url \"https://github.com/x71c9/tempesta/releases/download/${TAG_NAME}/tempesta-aarch64-apple-darwin.tar.gz\"|" Formula/tempesta.rb
           sed -i "s|sha256 \".*\"|sha256 \"${SHA256_AARCH64}\"|" Formula/tempesta.rb
 
       - name: Commit and Push Changes
@@ -42,6 +49,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Formula/tempesta.rb
-          git commit -m "Update tempesta to ${LATEST_VERSION}"
+          git commit -m "Update tempesta to ${TAG_NAME}"
           git push
 
