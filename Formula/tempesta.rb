@@ -1,13 +1,13 @@
 class Tempesta < Formula
   desc "The fastest and lightest bookmark manager CLI written in Rust"
   homepage "https://github.com/x71c9/tempesta"
-  version "0.0.79"
-  url "https://github.com/x71c9/tempesta/releases/download/v0.0.79/tempesta-x86_64-apple-darwin.tar.gz"
-  sha256 "a441aaf2480c4fe15e28f3d5740e2ff78e70df825617c0d2ff519770f83016ec"
+  version "0.0.80"
+  url "https://github.com/x71c9/tempesta/releases/download/v0.0.80/tempesta-x86_64-apple-darwin.tar.gz"
+  sha256 "9c29a6d1f01b1d0c2821f9033ea96d52ee0c2ed3f06209b4a0297c79de9756b6"
   
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/tempesta/releases/download/v0.0.79/tempesta-aarch64-apple-darwin.tar.gz"
-    sha256 "a441aaf2480c4fe15e28f3d5740e2ff78e70df825617c0d2ff519770f83016ec"
+    url "https://github.com/x71c9/tempesta/releases/download/v0.0.80/tempesta-aarch64-apple-darwin.tar.gz"
+    sha256 "9c29a6d1f01b1d0c2821f9033ea96d52ee0c2ed3f06209b4a0297c79de9756b6"
   end
 
   def install
