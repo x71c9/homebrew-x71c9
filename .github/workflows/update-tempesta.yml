@@ -1,8 +1,8 @@
-name: Update Homebrew Formula
+name: Update Homebrew Temesta
 
 on:
   repository_dispatch:
-    types: [update-homebrew]
+    types: [update-tempesta]
 
 permissions:
   contents: write  # Required for modifying the formula

@@ -1,0 +1,54 @@
+name: Update Homebrew Atar
+
+on:
+  repository_dispatch:
+    types: [update-atar]
+
+permissions:
+  contents: write  # Required for modifying the formula
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout homebrew tap repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: echo "Latest tag is $TAG_NAME"
+
+      - name: Download binaries
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: |
+          wget -O atar-x86_64.tar.gz https://github.com/x71c9/atar/releases/download/${TAG_NAME}/atar-x86_64-apple-darwin.tar.gz
+          wget -O atar-aarch64.tar.gz https://github.com/x71c9/atar/releases/download/${TAG_NAME}/atar-aarch64-apple-darwin.tar.gz
+
+      - name: Compute SHA256
+        run: |
+          SHA256_X86_64=$(sha256sum atar-x86_64.tar.gz | awk '{print $1}')
+          SHA256_AARCH64=$(sha256sum atar-aarch64.tar.gz | awk '{print $1}')
+          echo "SHA256_X86_64=${SHA256_X86_64}" >> $GITHUB_ENV
+          echo "SHA256_AARCH64=${SHA256_AARCH64}" >> $GITHUB_ENV
+
+      - name: Update Formula
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: |
+          sed -i "s|version \".*\"|version \"${TAG_NAME#v}\"|" Formula/atar.rb
+          sed -i "s|url \".*x86_64.*\"|url \"https://github.com/x71c9/atar/releases/download/${TAG_NAME}/atar-x86_64-apple-darwin.tar.gz\"|" Formula/atar.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA256_X86_64}\"|" Formula/atar.rb
+          sed -i "s|url \".*aarch64.*\"|url \"https://github.com/x71c9/atar/releases/download/${TAG_NAME}/atar-aarch64-apple-darwin.tar.gz\"|" Formula/atar.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA256_AARCH64}\"|" Formula/atar.rb
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/atar.rb
+          git commit -m "Update atar to ${TAG_NAME}"
+          git push
+

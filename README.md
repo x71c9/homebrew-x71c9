@@ -12,11 +12,13 @@ brew tap x71c9/x71c9
 
 Formula	Description
 tempesta	The lightest and faster CLI for managing bookmark written in Rust
+atar	 Ephemeral Terraform runner that applies on start and destroys on exit or failure. 
 
 ## Install formula
 
 ```bash
 brew install tempesta
+brew install atar
 ```
 
 ## Uninstalling
@@ -25,6 +27,7 @@ To remove a specific tool:
 
 ```bash
 brew uninstall tempesta
+brew uninstall atar
 ```
 
 To remove this tap completely:
@@ -39,6 +42,13 @@ To fetch the latest updates:
 
 ```bash
 brew update
+```
+
+## Direct install command both tap and formula
+
+```bash
+brew install x71c9/x71c9/tempesta
+brew install x71c9/x71c9/atar
 ```
 
 ## Contributing
