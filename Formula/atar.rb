@@ -1,13 +1,13 @@
 class Atar < Formula
   desc "Ephemeral Terraform runner that applies on start and destroys on exit or failure."
   homepage "https://github.com/x71c9/atar"
-  version "0.1.9"
-  url "https://github.com/x71c9/atar/releases/download/v0.1.9/atar-x86_64-apple-darwin.tar.gz"
-  sha256 "003a322e6efd98ab4763456f9d016ea5c40614fbac667ec4783105d055027d62"
+  version "0.1.10"
+  url "https://github.com/x71c9/atar/releases/download/v0.1.10/atar-x86_64-apple-darwin.tar.gz"
+  sha256 "7cfb7e1d047e2cbadc066a3c645175446a6a3d96aa5ea2fb41fcd100fcb5d2e2"
   
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/atar/releases/download/v0.1.9/atar-aarch64-apple-darwin.tar.gz"
-    sha256 "003a322e6efd98ab4763456f9d016ea5c40614fbac667ec4783105d055027d62"
+    url "https://github.com/x71c9/atar/releases/download/v0.1.10/atar-aarch64-apple-darwin.tar.gz"
+    sha256 "7cfb7e1d047e2cbadc066a3c645175446a6a3d96aa5ea2fb41fcd100fcb5d2e2"
   end
 
   def install
