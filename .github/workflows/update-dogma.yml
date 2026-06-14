@@ -1,0 +1,53 @@
+name: Update Homebrew Dogma
+
+on:
+  repository_dispatch:
+    types: [update-dogma]
+
+permissions:
+  contents: write
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout homebrew tap repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: echo "Latest tag is $TAG_NAME"
+
+      - name: Download binaries
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: |
+          wget -O dogma-x86_64.tar.gz https://github.com/x71c9/dogma/releases/download/${TAG_NAME}/dogma-x86_64-apple-darwin.tar.gz
+          wget -O dogma-aarch64.tar.gz https://github.com/x71c9/dogma/releases/download/${TAG_NAME}/dogma-aarch64-apple-darwin.tar.gz
+
+      - name: Compute SHA256
+        run: |
+          SHA256_X86_64=$(sha256sum dogma-x86_64.tar.gz | awk '{print $1}')
+          SHA256_AARCH64=$(sha256sum dogma-aarch64.tar.gz | awk '{print $1}')
+          echo "SHA256_X86_64=${SHA256_X86_64}" >> $GITHUB_ENV
+          echo "SHA256_AARCH64=${SHA256_AARCH64}" >> $GITHUB_ENV
+
+      - name: Update Formula
+        env:
+          TAG_NAME: ${{ github.event.client_payload.tag }}
+        run: |
+          sed -i "s|version \".*\"|version \"${TAG_NAME#v}\"|" Formula/dogma.rb
+          sed -i "s|url \".*x86_64.*\"|url \"https://github.com/x71c9/dogma/releases/download/${TAG_NAME}/dogma-x86_64-apple-darwin.tar.gz\"|" Formula/dogma.rb
+          sed -i "s|url \".*aarch64.*\"|url \"https://github.com/x71c9/dogma/releases/download/${TAG_NAME}/dogma-aarch64-apple-darwin.tar.gz\"|" Formula/dogma.rb
+          sed -i "/x86_64-apple-darwin/{n;s|sha256 \".*\"|sha256 \"${SHA256_X86_64}\"|};" Formula/dogma.rb
+          sed -i "/aarch64-apple-darwin/{n;s|sha256 \".*\"|sha256 \"${SHA256_AARCH64}\"|};" Formula/dogma.rb
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/dogma.rb
+          git commit -m "Update dogma to ${TAG_NAME}"
+          git push
