@@ -1,16 +1,16 @@
 class Dogma < Formula
   desc "CLI to bridge secrets from any vault backend and infra outputs into sops-encrypted files, deployed to your machines — driven by a single dogma.yml"
   homepage "https://github.com/x71c9/dogma"
-  version "1.2.2"
+  version "1.3.0"
 
   on_intel do
-    url "https://github.com/x71c9/dogma/releases/download/v1.2.2/dogma-x86_64-apple-darwin.tar.gz"
-    sha256 "9050db718a4c05d32e811099a741a8a59d74aa10b98d9f57ff0df2937aec7094"
+    url "https://github.com/x71c9/dogma/releases/download/v1.3.0/dogma-x86_64-apple-darwin.tar.gz"
+    sha256 "c034234412303f8fc7c30802fad23ff0398d09d4429405953ea5f9a2949e67a5"
   end
 
   on_arm do
-    url "https://github.com/x71c9/dogma/releases/download/v1.2.2/dogma-aarch64-apple-darwin.tar.gz"
-    sha256 "ece3dfe6c506db652bbd73b821bd9e9515ba3612543c29ba315370da03d6770b"
+    url "https://github.com/x71c9/dogma/releases/download/v1.3.0/dogma-aarch64-apple-darwin.tar.gz"
+    sha256 "e4514ade5b6f28ed617cf1e11379acf63781fe6b17e40983cb03f268b64c9f58"
   end
 
   def install
