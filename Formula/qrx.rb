@@ -1,13 +1,13 @@
 class Qrx < Formula
   desc "CLI tool to capture a screen region, decode any QR code found, and copy the result to clipboard."
   homepage "https://github.com/x71c9/qrx"
-  version "0.2.4"
-  url "https://github.com/x71c9/qrx/releases/download/v0.2.4/qrx-x86_64-apple-darwin.tar.gz"
-  sha256 "d53a22ae3171a426acbb3abc31d0ab73c97d99f73a2a7feb57ac43bcce850499"
+  version "0.3.0"
+  url "https://github.com/x71c9/qrx/releases/download/v0.3.0/qrx-x86_64-apple-darwin.tar.gz"
+  sha256 "65adb941275b6786a69017b84a526e28f1419001af34ded78a6ad60ea655c4b9"
 
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/qrx/releases/download/v0.2.4/qrx-aarch64-apple-darwin.tar.gz"
-    sha256 "4305b421261c517f654a7c1e82a1c3b6e4bce1060af1757fc2172eaace262fa0"
+    url "https://github.com/x71c9/qrx/releases/download/v0.3.0/qrx-aarch64-apple-darwin.tar.gz"
+    sha256 "f57736c1b2e08fcd828c591262657a070899286074e23bd4f47095858332284c"
   end
 
   def install
