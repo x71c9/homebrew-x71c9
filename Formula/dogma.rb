@@ -1,13 +1,13 @@
 class Dogma < Formula
   desc "Bridges secrets from vault backends and infrastructure outputs into sops-encrypted files deployed to NixOS machines"
   homepage "https://github.com/x71c9/dogma"
-  version "3.3.0"
-  url "https://github.com/x71c9/dogma/releases/download/v3.3.0/dogma-x86_64-apple-darwin.tar.gz"
-  sha256 "7d9e627742b3f8498f49ac5e737c3b4e7743de975a3630c0606b9cd4c0fad6f0"
+  version "3.4.0"
+  url "https://github.com/x71c9/dogma/releases/download/v3.4.0/dogma-x86_64-apple-darwin.tar.gz"
+  sha256 "ea4e1844a6a96fa4a6f2cfacbb40a4c20abaeac49efbb28c3c332910b935257d"
 
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/dogma/releases/download/v3.3.0/dogma-aarch64-apple-darwin.tar.gz"
-    sha256 "bf4b9720280d8b0224f8cf3c08c41ad0c5b7ed770e984c98a105b2bc7ee953cc"
+    url "https://github.com/x71c9/dogma/releases/download/v3.4.0/dogma-aarch64-apple-darwin.tar.gz"
+    sha256 "e578a7ceadfd33f3246539940542bfb3eb8e7a72ebdc96045cfa7a0e1ee20d89"
   end
 
   def install
