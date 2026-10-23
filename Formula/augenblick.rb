@@ -1,13 +1,13 @@
 class Augenblick < Formula
   desc "Fullscreen eye-blink overlay for X11 and Wayland"
   homepage "https://github.com/x71c9/augenblick"
-  version "0.5.0"
-  url "https://github.com/x71c9/augenblick/releases/download/v0.5.0/augenblick-x86_64-apple-darwin.tar.gz"
-  sha256 "4be96722a6d0f9e54befdae5a50eb086040bdd61e5a5bea9d81910df64bad0a2"
+  version "0.5.1"
+  url "https://github.com/x71c9/augenblick/releases/download/v0.5.1/augenblick-x86_64-apple-darwin.tar.gz"
+  sha256 "91f682bb50b4d76e02b3b05fda7e04c17b4d2e0cd07cde6ceb06a429eadaa8d4"
 
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/augenblick/releases/download/v0.5.0/augenblick-aarch64-apple-darwin.tar.gz"
-    sha256 "ae4545d67683ed7de7c08ff79a7f293db91562777f6c7aa573c863b061670ac9"
+    url "https://github.com/x71c9/augenblick/releases/download/v0.5.1/augenblick-aarch64-apple-darwin.tar.gz"
+    sha256 "9c8b15fa4db545921b213edb5fb9b304e2fef69dd9f8116aebdb99b0c40eb449"
   end
 
   def install
