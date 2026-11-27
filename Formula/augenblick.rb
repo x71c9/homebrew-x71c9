@@ -1,17 +1,27 @@
 class Augenblick < Formula
   desc "Fullscreen eye-blink overlay for X11 and Wayland"
   homepage "https://github.com/x71c9/augenblick"
-  version "0.6.1"
-  url "https://github.com/x71c9/augenblick/releases/download/v0.6.1/augenblick-x86_64-apple-darwin.tar.gz"
-  sha256 "d40d417b0801000fb41bd84052ae0b9b077864b12a9fc61adb0ee9dcb93e3115"
+  version "0.6.2"
+  url "https://github.com/x71c9/augenblick/releases/download/v0.6.2/augenblick-x86_64-apple-darwin.tar.gz"
+  sha256 "8f718b22ea38ef9d9d67b4b0ca6787bc2935ac47e30884e0ac7055f0daa036ee"
 
   if Hardware::CPU.arm?
-    url "https://github.com/x71c9/augenblick/releases/download/v0.6.1/augenblick-aarch64-apple-darwin.tar.gz"
-    sha256 "19c60a8630d4adac622e77b1eddd65d98a81f66e4b330a8a470860ee872e9a99"
+    url "https://github.com/x71c9/augenblick/releases/download/v0.6.2/augenblick-aarch64-apple-darwin.tar.gz"
+    sha256 "310e5df926dd2f3b6410a7fab40538808c560a2be8bee68687ef8d98b24846db"
   end
 
   def install
     bin.install "augenblick"
+  end
+
+  def caveats
+    <<~'CAVEATS'
+      augenblick draws the overlay through XQuartz, the X server for macOS, which is not part of macOS:
+        brew install --cask xquartz
+      XQuartz sets DISPLAY only for the sessions started after a logout and login; until then:
+        open -a XQuartz
+        DISPLAY=:0 augenblick
+    CAVEATS
   end
 
   test do
